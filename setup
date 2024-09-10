@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "Quick project setup script by - Ojas Maheshwari"
+echo "Enter filenames, press blank enter when done"
+
+declare -a files=()
+takeFilename() {
+  read -p "> " _file
+
+  # check if file is blank or not
+  if [[ "$_file" == "" ]]; then
+    proceed
+  else
+    files+=($_file)
+    takeFilename
+  fi
+}
+
+proceed() {
+  echo "Creating files:-"
+  echo "${files[@]}"
+
+  # loop through files array, touch each file
+  for _file in ${files[@]}
+  do
+    touch $_file
+  done
+
+  echo "Done"
+
+  # start tmux
+  echo "Starting tmux"
+  tmux
+  echo "Done"
+
+  echo "Opening helix editor"
+
+  # if single file then open in helix directly otherwise open 1 and 2 in vsplit view
+  numOfFiles=${#files[@]}
+  if [ $numOfFiles -gt 1 ]; then
+    helix --vsplit ${files[0]} ${files[1]}
+  else
+    helix ${files[0]}
+  fi
+}
+
+takeFilename
