@@ -28,13 +28,7 @@ proceed() {
 
   echo "Done"
 
-  # start tmux
-  echo "Starting tmux"
-  tmux
-  echo "Done"
-
   echo "Opening helix editor"
-
   # if single file then open in helix directly otherwise open 1 and 2 in vsplit view
   numOfFiles=${#files[@]}
   if [ $numOfFiles -gt 1 ]; then
